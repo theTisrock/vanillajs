@@ -24,3 +24,6 @@ x = (type is here ->) 1;
 
 Typescript is a superset of JS that allows for static typing.
 
+DOM - Document Object Model
+
+Hierarchy: window -> document
