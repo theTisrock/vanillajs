@@ -1,3 +1,9 @@
+/* 
+Unlike a compiled language, like Java, JavaScript data types 
+are associated with the values and not the variables themselves. 
+*/
+
+
 /* PRIMITIVE */
 
 // String 
