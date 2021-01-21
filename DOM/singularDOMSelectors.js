@@ -1,35 +1,50 @@
-// document.getElementById('id-selector');
+/* 
+    DOM Selectors pull elements, nodes, and other things from the DOM.
+*/
 
-let element = window.document.getElementById('task-title');
-
-console.log(element);
-
-// get things from the selected element
-
-console.log(element.id);
-console.log(element.className);
+// There are Single and Multi Element selectors. Single Selectors just grab the FIRST element.
+// Multi element selectors grab an HTML Collection
 
 
-// Change style
+// ***** document.getElementById() - has been around for a long time, less flexible than it's alternative.
 
-window.document.getElementById('task-title').style.background = '#aaa';
-window.document.getElementById('task-title').style.color = '#fff';
-window.document.getElementById('task-title').style.padding = '10px';
-// window.document.getElementById('task-title').style.display = 'none';
+// console.log(document.getElementById('task-title'));
 
-// Change content
-window.document.getElementById('task-title').textContent = 'Tasks List';
-window.document.getElementById('task-title').innerText = 'My Tasks List';
-window.document.getElementById('task-title').innerHTML = '<span style="color:red">Task List</span>';
+// // Fetch the element
 
-// Document query selector
+// const taskTitle = document.getElementById('task-title');
 
-console.log(document.querySelector('#task-title'));
-console.log(document.querySelector('.card-title'));
-console.log(document.querySelector('h5'));
 
-document.querySelector('li').style.color = 'red';
-document.querySelector('ul li').style.color = 'blue'; // nested html selector
-document.querySelector('li:last-child').style.color = 'green';
-document.querySelector('li:nth-child(3)').style.color = 'yellow';
-document.querySelector('li:last-child').textContent = 'Hello World';
+// // Get things from the element...
+
+// console.log(taskTitle.id);
+// console.log(taskTitle.className);
+
+// // Set style
+// taskTitle.style.background = 'grey';
+// taskTitle.style.color = 'white';
+// taskTitle.style.padding = '15px';
+// // document.getElementById('task-title').style.display = 'none';
+
+// // Change content - could be useful for Ajax calls
+// taskTitle.textContent = 'Tasks List';
+// taskTitle.innerText = 'My Tasks';
+// taskTitle.textContent = 'Try This';
+// taskTitle.innerHTML = '<span style="color:red">HELLO</span>'
+
+// ***** document.querySelector()
+
+
+console.log(document.querySelector('#task-title'));  // by ID
+console.log(document.querySelector('.card-title'));  // by class
+console.log(document.querySelector('h5'));  // by html element
+
+const firstLi = document.querySelector('li');
+firstLi.style.color = "red";
+
+const nestedLi = document.querySelector('ul li');
+firstLi.style.color = "blue";
+
+const lastLi = document.querySelector('li:last-child');
+lastLi.style.color = 'red';
+

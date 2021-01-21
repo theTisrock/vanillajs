@@ -4,12 +4,14 @@ let val;
 
 
 /* 
-    html collection is not an array, but is an array-like object.
+    HTML Collection is not an array, but is an array-like object.
+
+    No forEach lists.
 
     the indexed collection of the entire html document!
 */
 
-val = window.document.all;  
+val = window.document.all; // HTML Collection
 
 val = document.all[0];  // html tag
 val = document.all[1]; // head tag
@@ -17,7 +19,7 @@ val = document.all[2];  // meta
 val = document.all[5];  // link tag
 val = document.all[7];  // title
 val = document.all[8];  // body
-val = document.all.length; // counts the node tags in the document
+val = document.all.length; // counts the node tags in the DOM
 val = document.body;
 val = document.doctype;
 val = document.domain;

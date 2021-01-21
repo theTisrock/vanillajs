@@ -1,86 +1,54 @@
-/* 
-Traversing the Document Object Model 
-
-aka
-
-Dealing with the DOM parent-child structure
-*/
-
 let val;
-const list = document.querySelector('ul.collection');
-const listItem = document.querySelector('li.collection-item:first-child');
 
-val = listItem;
+const list = document.querySelector('ul');
+const listitem = document.querySelector('li.collection-item:first-child');
+
+val = listitem;
 val = list;
 
-/* 
-Before going further, 
-what is the difference between querySelector/querySelectorAll VS getElementBy[Id,ClassName, etc]
-
-qS/qSA VS gEB: 
-- an interface for every element of the DOM VS only accessible from document. context
-- new VS old
-- highly flexible VS rigid
-
-Observations:
-- getElementBy[Id,ClassName, etc] returns objects that contain querySelector methods.
- */
-
-// Examing the properties of the above selected nodes
-
-val = list.childNodes; // returns NodeList
-val = list.children; // return HTMLCollection
-
-val = list.childNodes[0].nodeName;
+// CHILD NODES
+val = list.childNodes;  // line breaks can show up as text nodes
 val = list.childNodes[0].nodeType;
 
-/*
-1 - Element
-2 - Attribute (deprecated)
-3 - Text node 
-8 - Comment
-9 - Document itself
-10 - Doctype
-*/
+// Get children - gets the HTML Collection elements, no text nodes
+// val = list.children;
 
-val = list.childNodes;
-val = list.childNodes[1].nodeType;
+// children will be used more than childNodes
+// Why?
+/* Probably because nodes include text node content as well, so it might be easier to parse 
+an HTMLCollection as opposed to NodeLists */
 
-// children usually used more than childNodes
 val = list.children;
 val = list.children[0];
-list.children[0].textContent = 'hello';
 
-// Children of Children
-list.children[3].children[0].id = 'custom'
+list.children[0].textContent = "NO TASK";
+
+// get children of children
+list.children[3].children[0].id = "test-id";
 val = list.children[3].children[0];
 
-val = list.firstChild; // might give text nodes
-val = list.firstElementChild; // entire element. 
+val = list.firstChild;  // first node
+val = list.firstElementChild;
 
 val = list.lastChild;
+list.lastElementChild.id = "last-one"
 val = list.lastElementChild;
 
-Array.from(list.children).forEach(function(item, index) {
-    item.id = `list-item-${index}`;
-});
-
-// Count child elements
 val = list.childElementCount;
 
-// Get parent element
-val = listItem.parentElement;
-val = listItem.parentElement.parentElement;
 
-// Get parent node
-val = listItem.parentNode;
-val = listItem.parentNode.parentNode;
+// PARENT NODES
+val = listitem.parentNode;
+val = listitem.parentElement;
+val = listitem.parentElement.parentElement;
 
-// Sibling
-val = listItem.nextSibling; // Node
-val = listItem.nextElementSibling.nextElementSibling; // element
+// SIBLING
+val = listitem.nextSibling;
+val = listitem.nextElementSibling.nextElementSibling;
 
-val = listItem.previousSibling; // Node
-val = listItem.previousElementSibling.previousElementSibling; // element
+val = listitem.previousSibling;
+val = listitem.previousElementSibling;
+
+
 
 console.log(val);

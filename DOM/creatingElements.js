@@ -1,36 +1,37 @@
-const li = document.createElement('li');
+/* CREATING ELEMENTS & INSERTING THEM INTO THE DOM */
 
-li.className = 'colllection-item';
-li.id = 'new-item';
-li.setAttribute('title', 'New Item');
 
-// create text node and append
-li.appendChild(document.createTextNode('Hello Word'));
+// Create the element
+let li = document.createElement('li');
 
-// let items = document.querySelectorAll('li'); // experiment to see if I can add an li to the list
+// add a class to our element
+li.className = "collection-item"; /* or */ li.setAttribute('class', "collection-item");
 
+// add an id
+li.id = "new-item"; /* or */ li.setAttribute('id', "new-item");
+
+// add attribute
+li.title = "title"; /* or */ li.setAttribute('title', "New Item");
+
+// Create text node within the element
+li.appendChild(document.createTextNode('Hello World!'));
 
 // Create new link element
 const link = document.createElement('a');
-link.href = '#';
-link.className = 'delete-item secondary-content';
-link.innerHTML = '<i class="fa fa-remove"></i>';
+link.setAttribute('class', 'delete-item secondary-content');
 
-// note: nothing will change until this link gets inserted into the li element
+// Add icon html
+link.innerHTML = "<i class='fa fa-remove'></i>";
 
+// tack the link onto the li element
 li.appendChild(link);
 
-// Append li as child to ul
-document.querySelector('ul.collection').appendChild(li);
+// INSERT THE ELEMENT INTO THE DOM
+// append the li as child to ul
+
+let ul = document.querySelector('ul.collection');
+ul.appendChild(li);
+
 
 
 console.log(li);
-
-/* takeaways:
-An obvious work flow for adding DOM elements is to...
-
--first create the element (via createElement() function)
--add the attributes that are needed to said element: class, attributes, hrefs, content, etc.
--find that location at which you wish to place the element. In this case we used the approach of finding the elements' parent
-    and simply appending the new element as a child. 
-*/
