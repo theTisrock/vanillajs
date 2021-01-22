@@ -40,3 +40,39 @@ parent.replaceChild(newCardTitle, currentCardTitle);
 
 console.log(currentCardTitle);
 console.log(newCardTitle);
+
+/* CLASSES AND ATTRIBUTES */
+
+// CLASSES
+const firstLi = document.querySelector('li:first-child');
+console.log(firstLi);
+
+// const a = firstLi.querySelector('a:first-child');
+
+const link = firstLi.children[0];
+let val;
+
+val = link.className; // returns string literal of class names
+val = link.classList; // return an array-like DOM Token List
+val = link.classList[0];
+
+link.classList.add('test');
+val = link;
+
+link.classList.remove('test');
+val = link
+
+;
+
+
+// ATTRIBUTES
+val = link.getAttribute('href');
+val = link.setAttribute('href', 'http://www.google.com');
+val = link.hasAttribute('href');
+link.setAttribute('title', 'Google');
+val = link;
+
+link.removeAttribute('title');
+
+console.log(val);
+
