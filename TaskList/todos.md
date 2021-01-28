@@ -7,3 +7,5 @@ Boilerplate:
     2) font awesome
 
 * app.js file (our main js file)
+    1) define variables/components that you know you'll need to work with in the DOM.
+    
