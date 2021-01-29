@@ -1,4 +1,6 @@
 /* CHALLENGE: try to make these components as decoupled as possible
+
+    trying to use pure functions as much as possible
     
     considerations for functionality:
     
@@ -14,12 +16,9 @@ const taskInput = document.querySelector('#task');
 
 
 function createListItem(contentText=taskInput.value, href="#", classes = "") {
-    
-    /* create a list item */
     let li = document.createElement('li');
     li.appendChild(document.createTextNode(contentText));
 
-    // add options
     li.setAttribute('href', href);
 
     if (classes) {  // empty strings are falsey
@@ -30,7 +29,6 @@ function createListItem(contentText=taskInput.value, href="#", classes = "") {
         })
     };
     
-    // deliver result
     return li;
 }
 
@@ -39,39 +37,46 @@ function addTaskEvent(event) {
     event.preventDefault();
     if (taskInput.value === "") {
         alert("Add a task");
+    } else {
+        const taskName = taskInput.value;
+        const tasks = document.querySelector('.collection');
+        const li = createListItem(taskName, "#", 'collection-item');
+        tasks.appendChild(li);
     }
-
-    const taskName = taskInput.value;
-    const tasks = document.querySelector('.collection');  // acquire the list to append this child too
-    const li = createListItem(taskName, "#", 'collection-item');
-    tasks.appendChild(li);
 }
 
-// register events
-(function loadEventListeners() {
+
+function loadEventListeners() {
     // component.addEventListener('event type', handler);
     form.addEventListener('submit', addTaskEvent);
 
     console.log("Loaded event listeners");
-})();
+};
 
 
 /* TEST SUITE */
-console.log("TEST SUITE");
-// validate components
-console.log(taskInput);
-console.log(taskFilter);
-console.log(clearBtn);
-console.log(tasksList);
-console.log(form);
+function runTests() {
+    console.log("TEST SUITE");
+    // validate components
+    console.log(taskInput);
+    console.log(taskFilter);
+    console.log(clearBtn);
+    console.log(tasksList);
+    console.log(form);
 
-// validate functions
-console.log(createListItem("HELLO THERE!"));
-console.log(createListItem("Custom href", 'not #'));
-console.log(createListItem("custom class list", "#", "class1 class2"));
-console.log(createListItem("HELLO THERE!"));
+    // validate functions
+    console.log(createListItem("HELLO THERE!"));
+    console.log(createListItem("Custom href", 'not #'));
+    console.log(createListItem("custom class list", "#", "class1 class2"));
+    console.log(createListItem("HELLO THERE!"));
 
-console.log("END TESTS");
+    console.log("END TESTS\n");
+}
+
+
+/* Initialize */
+// runTests();
+loadEventListeners();
 
 
 
