@@ -15,19 +15,31 @@ const taskFilter = document.querySelector('#filter');
 const taskInput = document.querySelector('#task');
 
 
+function _addClassList(classes, targetElement) {
+    let classList = classes.split(" ");
+
+    classList.forEach(function(element) {
+        targetElement.classList.add(`${element}`);
+    })
+}
+
+
+function createAnchorLink(href='#', classes = "") {
+    const anchor = document.createElement('a');
+
+    anchor.setAttribute('href', href);
+    _addClassList(classes, anchor);
+
+    return anchor;
+}
+
+
 function createListItem(contentText=taskInput.value, href="#", classes = "") {
     let li = document.createElement('li');
+    
     li.appendChild(document.createTextNode(contentText));
-
     li.setAttribute('href', href);
-
-    if (classes) {  // empty strings are falsey
-        let classList = classes.split(" ");
-        console.log(classList);
-        classList.forEach(function(element) {
-            li.classList.add(`${element}`)
-        })
-    };
+    _addClassList(classes, li);
     
     return li;
 }
@@ -35,12 +47,17 @@ function createListItem(contentText=taskInput.value, href="#", classes = "") {
 
 function addTaskEvent(event) {
     event.preventDefault();
+
     if (taskInput.value === "") {
         alert("Add a task");
     } else {
         const taskName = taskInput.value;
         const tasks = document.querySelector('.collection');
         const li = createListItem(taskName, "#", 'collection-item');
+        const anchor = createAnchorLink("#", "delete-item secondary-content");
+        anchor.innerHTML = "<i class='fa fa-remove'></i>"
+        
+        li.appendChild(anchor);
         tasks.appendChild(li);
     }
 }
