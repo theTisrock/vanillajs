@@ -12,17 +12,12 @@ const clearBtn = document.querySelector('a.clear-tasks');
 const taskFilter = document.querySelector('#filter');
 const taskInput = document.querySelector('#task');
 
-// register events
-function loadEventListeners() {
-    // component.addEventListener('event type', handler);
-}
 
-
-function createListItem(contentText, href="#", classes = "", id = "") {
+function createListItem(contentText=taskInput.value, href="#", classes = "") {
     
     /* create a list item */
     let li = document.createElement('li');
-    li.textContent = contentText;
+    li.appendChild(document.createTextNode(contentText));
 
     // add options
     li.setAttribute('href', href);
@@ -34,17 +29,31 @@ function createListItem(contentText, href="#", classes = "", id = "") {
             li.classList.add(`${element}`)
         })
     };
-
-    if (id) { li.setAttribute('id', id)};
     
     // deliver result
     return li;
 }
-function addTask(event, taskName) {
-    /* add a task to the list in the way that we need things to be done */
-    createListItem(taskName)
+
+
+function addTaskEvent(event) {
+    event.preventDefault();
+    if (taskInput.value === "") {
+        alert("Add a task");
+    }
+
+    const taskName = taskInput.value;
+    const tasks = document.querySelector('.collection');  // acquire the list to append this child too
+    const li = createListItem(taskName, "#", 'collection-item');
+    tasks.appendChild(li);
 }
 
+// register events
+(function loadEventListeners() {
+    // component.addEventListener('event type', handler);
+    form.addEventListener('submit', addTaskEvent);
+
+    console.log("Loaded event listeners");
+})();
 
 
 /* TEST SUITE */
@@ -59,7 +68,8 @@ console.log(form);
 // validate functions
 console.log(createListItem("HELLO THERE!"));
 console.log(createListItem("Custom href", 'not #'));
-console.log(createListItem("custom class list", "#", "class1 class2", "customid"));
+console.log(createListItem("custom class list", "#", "class1 class2"));
+console.log(createListItem("HELLO THERE!"));
 
 console.log("END TESTS");
 
