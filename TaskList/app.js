@@ -34,7 +34,7 @@ function createAnchorLink(href='#', classes = "") {
 }
 
 
-function createListItem(contentText=taskInput.value, href="#", classes = "") {
+function createListItem(contentText, href="#", classes = "") {
     let li = document.createElement('li');
     
     li.appendChild(document.createTextNode(contentText));
@@ -53,19 +53,30 @@ function addTaskEvent(event) {
     } else {
         const taskName = taskInput.value;
         const tasks = document.querySelector('.collection');
-        const li = createListItem(taskName, "#", 'collection-item');
+        const li = createListItem(taskName, "#", 'collection-item task');
         const anchor = createAnchorLink("#", "delete-item secondary-content");
         anchor.innerHTML = "<i class='fa fa-remove'></i>"
         
         li.appendChild(anchor);
         tasks.appendChild(li);
+
+        taskInput.value = "";
     }
+}
+
+
+function clearTasksEvent(event) {
+    const tasks = tasksList.querySelectorAll('li');
+    tasks.forEach(function(element) {
+        element.remove();
+    });
 }
 
 
 function loadEventListeners() {
     // component.addEventListener('event type', handler);
     form.addEventListener('submit', addTaskEvent);
+    clearBtn.addEventListener('click', clearTasksEvent);
 
     console.log("Loaded event listeners");
 };
