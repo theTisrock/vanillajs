@@ -87,3 +87,8 @@ Functions:
         https://stackoverflow.com/questions/28627606/does-adding-too-many-event-listeners-affect-performance
 
         based on the above link, event listening and delegation is handled the most efficiently at the parent element, so this is generally how it should be done.
+
+- Filter Displayed List by when typing
+
+    - triggered by keyup event listener
+    - when the value is not empty if a list item's text contains the substring of value, display that list item, else hide it.

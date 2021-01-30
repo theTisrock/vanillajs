@@ -7,7 +7,7 @@
     - need to be able to add <li> elements to the list
 */
 
-// Define UI vars (components)
+// grab UI components
 const form = document.querySelector('#task-form');
 const tasksList = document.querySelector('ul.collection');
 const clearBtn = document.querySelector('a.clear-tasks');
@@ -79,16 +79,12 @@ function deleteTask(element) {
     }
 }
 
-let extractedTarget;
 
 function deleteTaskEvent(event) {
     event.preventDefault();
     const deleteIconTouched = event.target.localName.localeCompare("i") === 0;
     
     if (deleteIconTouched) {
-        extractedTarget = event.target;
-        console.log(event.target);
-
         const icon = event.target;  // acquire the task
         const task = icon.parentElement.parentElement;
         task.setAttribute('id', 'delete-element');  // mark for deletion
@@ -100,11 +96,28 @@ function deleteTaskEvent(event) {
 }
 
 
+function taskFilterEvent(event) {
+    let filterText = taskFilter.value;
+    const tasks = tasksList.querySelectorAll('li');
+
+    tasks.forEach(function(task) {
+        let text = task.textContent;
+
+        if (text.indexOf(filterText) != -1) {
+            task.style.display = "block";
+        } else {
+            task.style.display = "none";
+        }
+    });
+}
+
+
 function loadEventListeners() {
     // component.addEventListener('event type', handler);
     form.addEventListener('submit', addTaskEvent);
     clearBtn.addEventListener('click', clearTasksEvent);
     tasksList.addEventListener('click', deleteTaskEvent);
+    taskFilter.addEventListener('keyup', taskFilterEvent);
 
     console.log("Loaded event listeners");
 };
