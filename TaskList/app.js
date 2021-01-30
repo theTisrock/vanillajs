@@ -73,10 +73,38 @@ function clearTasksEvent(event) {
 }
 
 
+function deleteTask(element) {
+    if (element.id === "delete-element") {  // check for deletion marker
+        element.remove();
+    }
+}
+
+let extractedTarget;
+
+function deleteTaskEvent(event) {
+    event.preventDefault();
+    const deleteIconTouched = event.target.localName.localeCompare("i") === 0;
+    
+    if (deleteIconTouched) {
+        extractedTarget = event.target;
+        console.log(event.target);
+
+        const icon = event.target;  // acquire the task
+        const task = icon.parentElement.parentElement;
+        task.setAttribute('id', 'delete-element');  // mark for deletion
+        deleteTask(task);
+
+        if (document.querySelector('delete-element') != null)  // clean up
+            console.error('Failed to delete an element when attempting to delete a task!');
+    }
+}
+
+
 function loadEventListeners() {
     // component.addEventListener('event type', handler);
     form.addEventListener('submit', addTaskEvent);
     clearBtn.addEventListener('click', clearTasksEvent);
+    tasksList.addEventListener('click', deleteTaskEvent);
 
     console.log("Loaded event listeners");
 };
