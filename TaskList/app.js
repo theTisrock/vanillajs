@@ -15,6 +15,44 @@ const taskFilter = document.querySelector('#filter');
 const taskInput = document.querySelector('#task');
 
 
+/* local storage functions */
+function saveTasks() {
+    /* approach 1: save all tasks each time a task is added */
+    const tasks = tasksList.querySelectorAll('li');
+    let rawTasks = [];
+    
+    tasks.forEach(function(taskElement) {
+        rawTasks.push(taskElement.textContent);
+    });
+
+    const serialized = JSON.stringify(rawTasks);
+    localStorage.setItem('tasks', serialized)
+}
+
+
+function getTasks(key) {
+    /* returns task array or null */
+    let raw = localStorage.getItem(key);
+    let native = JSON.parse(raw);
+    return native;
+}
+
+
+function loadTasks() {
+    /* loads tasks into the DOM at load time */
+    const textList = getTasks('tasks');
+
+    textList.forEach(function(text) {
+        addTask(text);
+    });
+}
+
+
+function loadTasksEvent(event) {
+    loadTasks();
+}
+
+
 function _addClassList(classes, targetElement) {
     let classList = classes.split(" ");
 
@@ -24,6 +62,7 @@ function _addClassList(classes, targetElement) {
 }
 
 
+/* DOM manipulation */
 function createAnchorLink(href='#', classes = "") {
     const anchor = document.createElement('a');
 
@@ -45,6 +84,19 @@ function createListItem(contentText, href="#", classes = "") {
 }
 
 
+function addTask(taskName) {
+    /* add a task to the ul in the DOM */
+    const tasks = document.querySelector('.collection');
+    
+    const task = createListItem(taskName, "#", 'collection-item task');
+    const anchor = createAnchorLink("#", "delete-item secondary-content");
+    anchor.innerHTML = "<i class='fa fa-remove'></i>"
+    
+    task.appendChild(anchor);
+    tasks.appendChild(task);
+}
+
+
 function addTaskEvent(event) {
     event.preventDefault();
 
@@ -52,15 +104,9 @@ function addTaskEvent(event) {
         alert("Add a task");
     } else {
         const taskName = taskInput.value;
-        const tasks = document.querySelector('.collection');
-        const li = createListItem(taskName, "#", 'collection-item task');
-        const anchor = createAnchorLink("#", "delete-item secondary-content");
-        anchor.innerHTML = "<i class='fa fa-remove'></i>"
-        
-        li.appendChild(anchor);
-        tasks.appendChild(li);
-
+        addTask(taskName);
         taskInput.value = "";
+        saveTasks();  // local storage
     }
 }
 
@@ -69,6 +115,7 @@ function clearTasksEvent(event) {
     const tasks = tasksList.querySelectorAll('li');
     tasks.forEach(function(element) {
         element.remove();
+        saveTasks();  // local storage
     });
 }
 
@@ -77,6 +124,7 @@ function deleteTask(element) {
     if (element.id === "delete-element") {  // check for deletion marker
         element.remove();
     }
+    saveTasks();  // local storage
 }
 
 
@@ -114,6 +162,7 @@ function taskFilterEvent(event) {
 
 function loadEventListeners() {
     // component.addEventListener('event type', handler);
+    document.addEventListener('DOMContentLoaded', loadTasksEvent)
     form.addEventListener('submit', addTaskEvent);
     clearBtn.addEventListener('click', clearTasksEvent);
     tasksList.addEventListener('click', deleteTaskEvent);
