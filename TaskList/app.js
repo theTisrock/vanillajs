@@ -17,7 +17,7 @@ const taskInput = document.querySelector('#task');
 
 /* local storage functions */
 function saveTasks() {
-    /* approach 1: save all tasks each time a task is added */
+    /* approach 1: save all tasks by grabbing the UI elements. */
     const tasks = tasksList.querySelectorAll('li');
     let rawTasks = [];
     
@@ -121,10 +121,12 @@ function clearTasksEvent(event) {
 
 
 function deleteTask(element) {
+
     if (element.id === "delete-element") {  // check for deletion marker
         element.remove();
     }
     saveTasks();  // local storage
+    /* saveTasks() looks at the li elements to save it's list. Is there anything wrong with doing that? Something feels wrong! */
 }
 
 
