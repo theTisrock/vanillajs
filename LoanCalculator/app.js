@@ -21,6 +21,32 @@ function getLoanRepaymentDetails(loanAmount, interestRate, loanLengthInYears) {
 }
 
 
+function clearMessage() {
+    document.querySelector('.alert').remove();
+}
+
+
+function flashMessage(message, messageType) {
+    const p = document.createElement('p');
+    p.appendChild(document.createTextNode(message));
+    const messageBox = document.createElement('div');
+    messageBox.appendChild(p);
+    messageBox.classList.add('alert');
+
+    switch (messageType) {
+        case 'error': messageBox.classList.add('alert-danger');
+            break;
+        default: break;
+    }
+
+    const card = document.querySelector('.card');
+    const heading = card.querySelector('h1.heading');
+    card.insertBefore(messageBox, heading);
+
+    setTimeout(clearMessage, 3000);
+}
+
+
 /* Events */
 function calculateEvent(event) {
     event.preventDefault();
@@ -31,23 +57,23 @@ function calculateEvent(event) {
 
     const hasRequiredParameters = loanAmount != "" && interestRate != "" && lifetimeYears != "";  // check all values are supplied
     if (!hasRequiredParameters) {
-        alert("Not all loan parameters have been supplied!");
-        return;
+        flashMessage("Incorrect or incomplete values supplied!", "error");
+    } else {
+
+        loanAmount = parseFloat(loanAmount);  // prepare data
+        interestRate = parseFloat(interestRate);
+        lifetimeYears = parseFloat(lifetimeYears);
+
+        const results = getLoanRepaymentDetails(loanAmount, interestRate, lifetimeYears);  // calculate
+
+        let monthlyPayment = document.getElementById("monthly-payment");
+        let totalPayment = document.getElementById("total-payment");
+        let totalInterest = document.getElementById("total-interest");
+
+        monthlyPayment.setAttribute('value', results.monthlyPayment.toFixed(2));  // output
+        totalPayment.setAttribute('value', results.totalPayment.toFixed(2));
+        totalInterest.setAttribute('value', results.totalInterest.toFixed(2));
     }
-
-    loanAmount = parseFloat(loanAmount);  // prepare data
-    interestRate = parseFloat(interestRate);
-    lifetimeYears = parseFloat(lifetimeYears);
-
-    const results = getLoanRepaymentDetails(loanAmount, interestRate, lifetimeYears);  // calculate
-
-    let monthlyPayment = document.getElementById("monthly-payment");
-    let totalPayment = document.getElementById("total-payment");
-    let totalInterest = document.getElementById("total-interest");
-
-    monthlyPayment.setAttribute('value', results.monthlyPayment.toFixed(2));  // output
-    totalPayment.setAttribute('value', results.totalPayment.toFixed(2));
-    totalInterest.setAttribute('value', results.totalInterest.toFixed(2));
 }
 
 
