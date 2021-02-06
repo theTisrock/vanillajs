@@ -2,14 +2,12 @@ const loanForm = document.getElementById("loan-form");
 
 
 function getLoanRepaymentDetails(loanAmount, interestRate, loanLengthInYears) {
-
-    let principle = loanAmount;
     let calculatedInterest = interestRate / 100 / 12;
     let calculatedPayments = loanLengthInYears * 12;
     let x = Math.pow(1 + calculatedInterest, calculatedPayments);
     let monthly = (principle * x * calculatedInterest) / (x-1);
     let total = monthly * calculatedPayments;
-    let totalInt = (monthly * calculatedPayments) - principle;
+    let totalInt = (monthly * calculatedPayments) - loanAmount;
 
     const results = {
         monthlyPayment: monthly,
@@ -21,12 +19,12 @@ function getLoanRepaymentDetails(loanAmount, interestRate, loanLengthInYears) {
 }
 
 
-function clearMessage() {
-    document.querySelector('.alert').remove();
-}
-
-
 function flashMessage(message, messageType) {
+    
+    function clearMessage() {
+        document.querySelector('.alert').remove();
+    }
+
     const p = document.createElement('p');
     p.appendChild(document.createTextNode(message));
     const messageBox = document.createElement('div');
@@ -59,20 +57,20 @@ function calculateEvent(event) {
     if (!hasRequiredParameters) {
         flashMessage("Incorrect or incomplete values supplied!", "error");
     } else {
-
         loanAmount = parseFloat(loanAmount);  // prepare data
         interestRate = parseFloat(interestRate);
         lifetimeYears = parseFloat(lifetimeYears);
 
         const results = getLoanRepaymentDetails(loanAmount, interestRate, lifetimeYears);  // calculate
 
-        let monthlyPayment = document.getElementById("monthly-payment");
+        let monthlyPayment = document.getElementById("monthly-payment");  // output
         let totalPayment = document.getElementById("total-payment");
         let totalInterest = document.getElementById("total-interest");
-
-        monthlyPayment.setAttribute('value', results.monthlyPayment.toFixed(2));  // output
+        monthlyPayment.setAttribute('value', results.monthlyPayment.toFixed(2));
         totalPayment.setAttribute('value', results.totalPayment.toFixed(2));
         totalInterest.setAttribute('value', results.totalInterest.toFixed(2));
+
+        showResults(results);
     }
 }
 
