@@ -58,8 +58,8 @@ const app = {
         winningNumber: 2, // Math.floor(Math.random() * settings.upperBound),
         gameOver: false,
     },
-    // methods - functions that modify that app data
-    methods: {
+    methods: {  // methods - functions that modify or read app data, typically impure
+        // no UI modifaction should be used here
         incrementGuessCount: function() {
             app.data.guessCount += 1;
         },
@@ -69,8 +69,13 @@ const app = {
         guessesLeft: function() {
             return settings.maxGuessCount - app.data.guessCount;
         },
+        resetGame: function() {
+            app.data.guessCount = 0;
+            app.data.winningNumber = app.data.winningNumber + 1;
+            app.data.gameOver = false;
+        },
     }, 
-    func: {
+    func: {  // funcs having nothing to do with the app, like utilities
         guessAttempt: function(guess, lowerBound, upperBound) {
             let result = false;
             const target = app.data.winningNumber;
@@ -99,6 +104,8 @@ function showGameOver(won) {
     "You won!" : `Woops! The correct answer is ${app.data.winningNumber}`;
     const userInputArea = document.querySelector('#guess-input');
     const message = document.querySelector('.message');
+    const btn = document.querySelector('#guess-submit');
+    btn.setAttribute('value', "Play Again?");
     // lock the input box
     userInputArea.disabled = true;
     // display the message
@@ -106,6 +113,23 @@ function showGameOver(won) {
     // apply feedback color
     userInputArea.style.border = color;
     message.style.color = color;
+}
+
+
+function showGameRestart() {
+    const userInputArea = document.querySelector('#guess-input');
+    const btn = document.querySelector('#guess-submit');
+    const message = document.querySelector('.message');
+
+    // unlock the input box
+    userInputArea.disabled = false;
+    // erase the color
+    userInputArea.style.border = "none";
+    message.style.color = "black";
+    // reset the button
+    btn.setAttribute('value', "Submit");
+    // clear the message
+    message.textContent = "";
 }
 
 
@@ -125,25 +149,31 @@ function playGameEvent(event) {  // main driver
         const guess = parseInt(guessInput.value);
         let outcome = false;
 
-        const validInput = !isNaN(guess) && guess >= settings.lowerBound && guess <= settings.upperBound;
-        if (!validInput) {
-            alert(`Only enter numbers between ${settings.lowerBound} and ${settings.upperBound}`);
+        if (!app.data.gameOver) {
+            const validInput = !isNaN(guess) && guess >= settings.lowerBound && guess <= settings.upperBound;
+            if (!validInput) {
+                alert(`Only enter numbers between ${settings.lowerBound} and ${settings.upperBound}`);
+            }
+            else if (app.data.guessCount < settings.maxGuessCount) {
+                    // const guess = Number(guessInput.value); changed to parseInt above
+                    outcome = app.func.guessAttempt(guess, settings.lowerBound, settings.upperBound);
+            } 
+            else {
+                message.textContent = `${guessesLeft} guesses left.`;
+            }
+
+            app.methods.incrementGuessCount(1);
+
+            app.data.gameOver = (outcome === true || app.data.guessCount >= settings.maxGuessCount);
+            if (app.data.gameOver === true)
+                showGameOver(outcome);
+            else
+                showCountDown();
         }
-        else if (app.data.guessCount < settings.maxGuessCount) {
-                // const guess = Number(guessInput.value); changed to parseInt above
-                outcome = app.func.guessAttempt(guess, settings.lowerBound, settings.upperBound);
-        } 
         else {
-            message.textContent = `${guessesLeft} guesses left.`;
+            app.methods.resetGame();
+            showGameRestart();
         }
-
-        app.methods.incrementGuessCount(1);
-
-        let gameOver = (outcome === true || app.data.guessCount >= settings.maxGuessCount);
-        if (gameOver === true)
-            showGameOver(outcome);
-        else
-            showCountDown();
     }
 }
 
