@@ -47,10 +47,10 @@ const app = {
     // methods - functions that modify that app data
     methods: {
         incrementGuessCount: function() {
-            this.app.data.guessCount += 1;
+            app.data.guessCount += 1;
         },  
     }, 
-    pure: {
+    func: {
         guessAttempt: function(guess, lowerBound, upperBound) {
             let result = false;
             const target = Math.floor(Math.random() * 10);
@@ -59,7 +59,7 @@ const app = {
                 result = guess === target;
         
             return result;
-        }
+        },
     },
 };
 
@@ -71,21 +71,20 @@ userInstructions.querySelector('.max-num').textContent = app.settings.upperBound
 
 
 function playGameEvent(event) {  // main driver
-
     const message = game.querySelector('.message');
 
-    if (app.settings.data.guessCount < app.settings.maxGuessCount) {
+    if (app.data.guessCount < app.settings.maxGuessCount) {
         if (event.target.id === "guess-submit") {
             const guessInput = game.querySelector('#guess-input');
             const guess = Number(guessInput.value);
-            const outcome = app.pure.guessAttempt(guess, settings.lowerBound, settings.upperBound);
+            const outcome = app.func.guessAttempt(guess, app.settings.lowerBound, app.settings.upperBound);
             message.textContent = (outcome) ? "win" : "lose";
         }
 
-        app.incrementGuessCount(1);
-    } else {
+        app.methods.incrementGuessCount(1);
+    } 
+    else
         message.textContent = "No attempts remaining";
-    }
 }
 
 
