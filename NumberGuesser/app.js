@@ -43,17 +43,21 @@ const app = {
     },
     data: {  // the variables to use for internal app logic
         guessCount: 0,
+        secretNumber: Math.floor(Math.random() * 10),
     },
     // methods - functions that modify that app data
     methods: {
         incrementGuessCount: function() {
             app.data.guessCount += 1;
-        },  
+        },
+        setSecretNumber: function() {
+            app.data.secretNumber = Math.floor(Math.random() * 10);
+        },
     }, 
     func: {
         guessAttempt: function(guess, lowerBound, upperBound) {
             let result = false;
-            const target = Math.floor(Math.random() * 10);
+            const target = app.data.secretNumber;
         
             if (guess >= lowerBound && guess <= upperBound)
                 result = guess === target;
