@@ -35,44 +35,57 @@
         -submit events are only fired when a form is submitted. If there's no form, there's no submit event.
 */
 
+const app = {
+    settings: {  // stuff that should not change when the app is running
+        upperBound: 10,
+        lowerBound: 1,
+        maxGuessCount: 5,
+    },
+    data: {  // the variables to use for internal app logic
+        guessCount: 0,
+    },
+    // methods - functions that modify that app data
+    methods: {
+        incrementGuessCount: function() {
+            this.app.data.guessCount += 1;
+        },  
+    }, 
+    pure: {
+        guessAttempt: function(guess, lowerBound, upperBound) {
+            let result = false;
+            const target = Math.floor(Math.random() * 10);
+        
+            if (guess >= lowerBound && guess <= upperBound)
+                result = guess === target;
+        
+            return result;
+        }
+    },
+};
+
 
 const game = document.querySelector("#game");
-
-
-const config = {
-    upperBound: 10,
-    lowerBound: 1,
-    target: -1,  // -1 as placeholder for now
-    guess: -1,
-    remainingGuesses: 3,
-};
+const userInstructions = document.querySelector('#user-instructions');
+userInstructions.querySelector('.min-num').textContent = app.settings.lowerBound;
+userInstructions.querySelector('.max-num').textContent = app.settings.upperBound;
 
 
 function playGameEvent(event) {  // main driver
 
-    if (event.target.id === "guess-submit") {
-        const guessInput = game.querySelector('#guess-input');
-        const guess = Number(guessInput.value);
+    const message = game.querySelector('.message');
 
-        const outcome = attemptGuess(guess, config.lowerBound, config.upperBound);
-        console.log(outcome);
+    if (app.settings.data.guessCount < app.settings.maxGuessCount) {
+        if (event.target.id === "guess-submit") {
+            const guessInput = game.querySelector('#guess-input');
+            const guess = Number(guessInput.value);
+            const outcome = app.pure.guessAttempt(guess, settings.lowerBound, settings.upperBound);
+            message.textContent = (outcome) ? "win" : "lose";
+        }
 
-        const message = game.querySelector('.message');
-        message.textContent = (outcome) ? "win" : "lost";
+        app.incrementGuessCount(1);
+    } else {
+        message.textContent = "No attempts remaining";
     }
-}
-
-
-function attemptGuess(guess, lowerBound, upperBound) {
-    let result = false;
-    const target = Math.floor(Math.random() * 10);
-    console.log(typeof target, target, typeof guess, guess);
-
-    if (guess >= lowerBound && guess <= upperBound) {
-        result = guess === target;
-    }
-
-    return result;
 }
 
 
