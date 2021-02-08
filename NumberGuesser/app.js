@@ -26,13 +26,18 @@
         - The user input value will be read in
         - the user input will be validated
 
-
         playGame():
         - the user input will be checked against the random value
         - the user will be notified of the outcome (win/loss)
 
     Learned:
-        -submit events are only fired when a form is submitted. If there's no form, there's no submit event.
+        - submit events are only fired when a form is submitted. If there's no form, there's no submit event.
+        - parseInt() vs Number(): https://stackoverflow.com/questions/4090518/what-is-the-difference-between-parseint-and-number
+            - parseInt() will extract (or parse) an int from a string, you can also provide a number base
+                examples:   parseInt("100", 2) -> 4 
+                            parseInt("100") -> 100 
+                            parseInt("100x") -> 100
+                            parseInt("10", 16) -> 16
 */
 
 const settings = {  // stuff that should not change when the app is running
@@ -44,7 +49,7 @@ const settings = {  // stuff that should not change when the app is running
 const app = {
     data: {  // the variables to use for internal app logic
         guessCount: 0,
-        secretNumber: Math.floor(Math.random() * settings.upperBound),
+        winningNumber: Math.floor(Math.random() * settings.upperBound),
     },
     // methods - functions that modify that app data
     methods: {
@@ -52,13 +57,13 @@ const app = {
             app.data.guessCount += 1;
         },
         setSecretNumber: function() {
-            app.data.secretNumber = Math.floor(Math.random() * settings.upperBound);
+            app.data.winningNumber = Math.floor(Math.random() * settings.upperBound);
         },
     }, 
     func: {
         guessAttempt: function(guess, lowerBound, upperBound) {
             let result = false;
-            const target = app.data.secretNumber;
+            const target = app.data.winningNumber;
         
             if (guess >= lowerBound && guess <= upperBound)
                 result = guess === target;
@@ -85,7 +90,8 @@ function playGameEvent(event) {  // main driver
     if (app.data.guessCount < settings.maxGuessCount) {
         if (event.target.id === "guess-submit") {
             const guessInput = game.querySelector('#guess-input');
-            const guess = Number(guessInput.value);
+            // const guess = Number(guessInput.value);
+            const guess = parseInt(guessInput.value);
             const outcome = app.func.guessAttempt(guess, settings.lowerBound, settings.upperBound);
             message.textContent = (outcome) ? "win" : "lose";
         }
