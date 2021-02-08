@@ -35,15 +35,16 @@
         -submit events are only fired when a form is submitted. If there's no form, there's no submit event.
 */
 
+const settings = {  // stuff that should not change when the app is running
+    upperBound: 10,
+    lowerBound: 1,
+    maxGuessCount: 5,
+};
+
 const app = {
-    settings: {  // stuff that should not change when the app is running
-        upperBound: 10,
-        lowerBound: 1,
-        maxGuessCount: 5,
-    },
     data: {  // the variables to use for internal app logic
         guessCount: 0,
-        secretNumber: Math.floor(Math.random() * 10),
+        secretNumber: Math.floor(Math.random() * settings.upperBound),
     },
     // methods - functions that modify that app data
     methods: {
@@ -51,7 +52,7 @@ const app = {
             app.data.guessCount += 1;
         },
         setSecretNumber: function() {
-            app.data.secretNumber = Math.floor(Math.random() * 10);
+            app.data.secretNumber = Math.floor(Math.random() * settings.upperBound);
         },
     }, 
     func: {
@@ -65,30 +66,34 @@ const app = {
             return result;
         },
     },
+    init: function() {
+        app.methods.setSecretNumber();
+    },
 };
 
 
 const game = document.querySelector("#game");
 const userInstructions = document.querySelector('#user-instructions');
-userInstructions.querySelector('.min-num').textContent = app.settings.lowerBound;
-userInstructions.querySelector('.max-num').textContent = app.settings.upperBound;
+userInstructions.querySelector('.min-num').textContent = settings.lowerBound;
+userInstructions.querySelector('.max-num').textContent = settings.upperBound;
 
 
 function playGameEvent(event) {  // main driver
     const message = game.querySelector('.message');
+    const guessesLeft = settings.maxGuessCount - app.data.guessCount;
 
-    if (app.data.guessCount < app.settings.maxGuessCount) {
+    if (app.data.guessCount < settings.maxGuessCount) {
         if (event.target.id === "guess-submit") {
             const guessInput = game.querySelector('#guess-input');
             const guess = Number(guessInput.value);
-            const outcome = app.func.guessAttempt(guess, app.settings.lowerBound, app.settings.upperBound);
+            const outcome = app.func.guessAttempt(guess, settings.lowerBound, settings.upperBound);
             message.textContent = (outcome) ? "win" : "lose";
         }
 
         app.methods.incrementGuessCount(1);
     } 
     else
-        message.textContent = "No attempts remaining";
+        message.textContent = `${guessesLeft} guesses left.`;
 }
 
 
@@ -100,3 +105,4 @@ function loadEventListeners() {
 
 // initialize
 loadEventListeners();
+app.init();
