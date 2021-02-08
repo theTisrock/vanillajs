@@ -75,7 +75,7 @@ const app = {
             app.data.gameOver = false;
         },
     }, 
-    func: {  // funcs having nothing to do with the app, like utilities
+    func: {  // funcs having nothing to do with the app or its data, like utilities
         guessAttempt: function(guess, lowerBound, upperBound) {
             let result = false;
             const target = app.data.winningNumber;
@@ -85,6 +85,44 @@ const app = {
         
             return result;
         },
+    },
+    show: {
+        gameOver: function(won) {
+            let color = (won === true) ? "green" : "red";
+            let msg = (won === true) ? 
+            "You won!" : `Woops! The correct answer is ${app.data.winningNumber}`;
+            const userInputArea = document.querySelector('#guess-input');
+            const message = document.querySelector('.message');
+            const btn = document.querySelector('#guess-submit');
+            btn.setAttribute('value', "Play Again?");
+            // lock the input box
+            userInputArea.disabled = true;
+            // display the message
+            message.textContent = msg;
+            // apply feedback color
+            userInputArea.style.border = color;
+            message.style.color = color;
+        },
+        gameRestart: function () {
+            const userInputArea = document.querySelector('#guess-input');
+            const btn = document.querySelector('#guess-submit');
+            const message = document.querySelector('.message');
+
+            // unlock the input box
+            userInputArea.disabled = false;
+            // erase the color
+            userInputArea.style.border = "none";
+            message.style.color = "black";
+            // reset the button
+            btn.setAttribute('value', "Submit");
+            // clear the message
+            message.textContent = "";
+        },
+        countDown: function() {
+            const guessesLeft = app.methods.guessesLeft();
+            const message = document.querySelector('.message');
+            message.textContent = `You have ${guessesLeft} guesses left.`
+        }
     },
     init: function() {
         app.methods.setWinningNumber();
@@ -96,48 +134,6 @@ const game = document.querySelector("#game");
 const userInstructions = document.querySelector('#user-instructions');
 userInstructions.querySelector('.min-num').textContent = settings.lowerBound;
 userInstructions.querySelector('.max-num').textContent = settings.upperBound;
-
-
-function showGameOver(won) {
-    let color = (won === true) ? "green" : "red";
-    let msg = (won === true) ? 
-    "You won!" : `Woops! The correct answer is ${app.data.winningNumber}`;
-    const userInputArea = document.querySelector('#guess-input');
-    const message = document.querySelector('.message');
-    const btn = document.querySelector('#guess-submit');
-    btn.setAttribute('value', "Play Again?");
-    // lock the input box
-    userInputArea.disabled = true;
-    // display the message
-    message.textContent = msg;
-    // apply feedback color
-    userInputArea.style.border = color;
-    message.style.color = color;
-}
-
-
-function showGameRestart() {
-    const userInputArea = document.querySelector('#guess-input');
-    const btn = document.querySelector('#guess-submit');
-    const message = document.querySelector('.message');
-
-    // unlock the input box
-    userInputArea.disabled = false;
-    // erase the color
-    userInputArea.style.border = "none";
-    message.style.color = "black";
-    // reset the button
-    btn.setAttribute('value', "Submit");
-    // clear the message
-    message.textContent = "";
-}
-
-
-function showCountDown() {
-    const guessesLeft = app.methods.guessesLeft();
-    const message = document.querySelector('.message');
-    message.textContent = `You have ${guessesLeft} guesses left.`
-}
 
 
 function playGameEvent(event) {  // main driver
@@ -166,13 +162,13 @@ function playGameEvent(event) {  // main driver
 
             app.data.gameOver = (outcome === true || app.data.guessCount >= settings.maxGuessCount);
             if (app.data.gameOver === true)
-                showGameOver(outcome);
+                app.show.gameOver(outcome);
             else
-                showCountDown();
+                app.show.countDown();
         }
         else {
             app.methods.resetGame();
-            showGameRestart();
+            app.show.gameRestart();
         }
     }
 }
