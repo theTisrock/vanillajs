@@ -84,22 +84,27 @@ userInstructions.querySelector('.max-num').textContent = settings.upperBound;
 
 
 function playGameEvent(event) {  // main driver
-    const message = game.querySelector('.message');
-    const guessesLeft = settings.maxGuessCount - app.data.guessCount;
 
-    if (app.data.guessCount < settings.maxGuessCount) {
-        if (event.target.id === "guess-submit") {
-            const guessInput = game.querySelector('#guess-input');
-            // const guess = Number(guessInput.value);
-            const guess = parseInt(guessInput.value);
-            const outcome = app.func.guessAttempt(guess, settings.lowerBound, settings.upperBound);
-            message.textContent = (outcome) ? "win" : "lose";
+    if (event.target.id === "guess-submit") {
+        const message = game.querySelector('.message');
+        const guessesLeft = settings.maxGuessCount - app.data.guessCount;
+        const guessInput = game.querySelector('#guess-input');
+        const guess = parseInt(guessInput.value);
+
+        const validInput = !isNaN(guess) && guess >= settings.lowerBound && guess <= settings.upperBound;
+        if (!validInput) {
+            alert(`Only enter numbers between ${settings.lowerBound} and ${settings.upperBound}`);
+        }
+        else if (app.data.guessCount < settings.maxGuessCount) {
+                // const guess = Number(guessInput.value);
+                const outcome = app.func.guessAttempt(guess, settings.lowerBound, settings.upperBound);
+                message.textContent = (outcome) ? "win" : "lose";
+        } else {
+            message.textContent = `${guessesLeft} guesses left.`;
         }
 
         app.methods.incrementGuessCount(1);
-    } 
-    else
-        message.textContent = `${guessesLeft} guesses left.`;
+    }
 }
 
 
