@@ -20,38 +20,61 @@ console.log(rightGroup);
 
 const app = {
     data: {
-        value: null,
+        valueA: null,
     },
     methods: {
-        get: function(name) {
-            return app.data[name];
+        set: function(key, value) {
+            app.data[key] = value;
+            updateUI();
         },
-        set: function(name, value) {
-            app.data[name] = value;
+        get: function(key) {
+            return app.data[key];
         },
     },
     show: {
-        updateComponents: function() {
+        updateByClass: function() {
             console.log("update components called.")
         },
     },
 };
 
 
+// communicate FROM app to UI
+function updateUI() {
+    const components = document.querySelectorAll('.valueA');
+    components.forEach(function(element) {
+        element.textContent = app.data.valueA;
+        element.value = app.data.valueA;
+    });
+}
+
+
+// communicate TO app
+function sendToAppData(app, fieldKey, value) {
+    app.methods.set(fieldKey, value);
+}
+
+
 // Events
 function leftEvent(event) {
-
+    // capture the data
+    const value = leftGroup.querySelector('#left').value;
+    // send it back to the application
+    sendToAppData(app, 'valueA', value);
 }
 
 
 function rightEvent(event) {
-
+    // capture the data
+    const value = rightGroup.querySelector('#right').value;
+    // send it back to the application
+    sendToAppData(app, 'valueA', value);
 }
 
 
 function loadEventListeners() {
-    leftGroup.addEventListener('click', leftEvent);
-    rightGroup.addEventListener('click', rightEvent);
+    leftGroup.addEventListener('keyup', leftEvent);
+    rightGroup.addEventListener('keyup', rightEvent);
 }
 
 

@@ -12,16 +12,26 @@
         <h1>Data Binding Experiment</h1>
         <div class="container">
         <h2>2 way binding</h2>
-        <div class="row">
-            <div class="six columns" id="left-group">
-                <input type="text" name="left" id="left">
-                <input type="submit" value="send to right">
+            <div class="row">
+                <div class="six columns" id="left-group">
+                    <label for="left" value="left">left</label>
+                    <input class="valueA" type="text" name="left" id="left">
+                    <!-- <input type="submit" value="update"> -->
+                </div>
+                <div class="six columns" id="right-group">
+                    <label for="right">right</label>
+                    <input class="valueA" type="text" name="right" id="right">
+                    <!-- <input type="submit" value="update"> -->
+                </div>
             </div>
-            <div class="six columns" id="right-group">
-                <input type="text" name="right" id="right">
-                <input type="submit" value="send to left">
-            </div>
-        </div>
+
+            <h2 class="results">Results</h2>
+            <ul class="collection">
+                <li class="valueA">These should be updated</li>
+                <li class="valueA">with the value</li>
+                <li class="valueA">when either button is clicked</li>
+                <li class="valueA">by the "application" code</li>
+            </ul>
         </div>
     </div>
 
@@ -34,5 +44,15 @@
 TODOS:
 1. set up depedencies: I'll use skeleton to keep things simple.
 2. connect with app.js with hello world console log
+3. set up a small data model in the app
+3. grab UI components
+4. set up event listeners
+
+trying to design a decoupled system.
+I'd like a piece of logic that updates all UI components with the data values in the app.
+
+flow: 
+A value is changed and sent back to the app -> 
+    the app gets updated with the data value and sends out
 
 -->
