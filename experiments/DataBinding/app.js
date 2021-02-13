@@ -46,9 +46,15 @@ const app = {
 // }
 
 
-// communicate TO app
+/* Communication Layer */
+// talk: ui to application
 function sendToAppData(app, fieldKey, value) {
     app.methods.set(fieldKey, value);
+}
+
+// talk: application to ui
+function sendToUI() {
+    
 }
 
 
