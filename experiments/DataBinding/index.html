@@ -15,12 +15,12 @@
             <div class="row">
                 <div class="six columns" id="left-group">
                     <label for="left" value="left">left</label>
-                    <input class="valueA" type="text" name="left" id="left">
+                    <input data-key="keyX" class="valueA" type="text" name="left" id="left" value="">
                     <!-- <input type="submit" value="update"> -->
                 </div>
                 <div class="six columns" id="right-group">
                     <label for="right">right</label>
-                    <input class="valueA" type="text" name="right" id="right">
+                    <input data-key="keyX" class="valueA" type="text" name="right" id="right" value="">
                     <!-- <input type="submit" value="update"> -->
                 </div>
             </div>
@@ -54,5 +54,18 @@ I'd like a piece of logic that updates all UI components with the data values in
 flow: 
 A value is changed and sent back to the app -> 
     the app gets updated with the data value and sends out
+
+A few gems I found:
+    - dataset.property can link custom html attributes and send them back to the DOM:
+    https://developer.mozilla.org/en-US/docs/Web/API/HTMLOrForeignElement/dataset
+
+    - data binding tutorial:
+    https://www.youtube.com/watch?v=h1RCCJtQoUs
+
+
+Learned:
+
+    - data-* html attributes can be leveraged to send data back to the DOM and can be queried on that element
+    - we could use this attribute to store the keys to our application data fields
 
 -->

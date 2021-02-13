@@ -1,4 +1,4 @@
-console.log("Hello World!");
+console.log("Hello from app.js!");
 
 /* 
 I think the correct approach here would be to send the data to the app. Then the app will take care of updating all content which uses that data.
@@ -14,18 +14,15 @@ const settings = {
 const leftGroup = document.querySelector('#left-group');
 const rightGroup = document.querySelector('#right-group');
 
-console.log(leftGroup);
-console.log(rightGroup);
-
 
 const app = {
-    data: {
-        valueA: null,
+    data: {  // state
+        keyX: null,
     },
     methods: {
         set: function(key, value) {
             app.data[key] = value;
-            updateUI();
+            // updateUI();
         },
         get: function(key) {
             return app.data[key];
@@ -40,13 +37,13 @@ const app = {
 
 
 // communicate FROM app to UI
-function updateUI() {
-    const components = document.querySelectorAll('.valueA');
-    components.forEach(function(element) {
-        element.textContent = app.data.valueA;
-        element.value = app.data.valueA;
-    });
-}
+// function updateUI() {
+//     const components = document.querySelectorAll('.valueA');
+//     components.forEach(function(element) {
+//         element.textContent = app.data.valueA;
+//         element.value = app.data.valueA;
+//     });
+// }
 
 
 // communicate TO app
@@ -58,17 +55,22 @@ function sendToAppData(app, fieldKey, value) {
 // Events
 function leftEvent(event) {
     // capture the data
-    const value = leftGroup.querySelector('#left').value;
+    const element = leftGroup.querySelector('#left');
+    const value = element.value;
+    const key = element.dataset.key;
     // send it back to the application
-    sendToAppData(app, 'valueA', value);
+    sendToAppData(app, key, value);
 }
 
 
 function rightEvent(event) {
     // capture the data
-    const value = rightGroup.querySelector('#right').value;
+    const element = rightGroup.querySelector('#right');
+    const value = element.value;
+    const key = element.dataset.key;
+    
     // send it back to the application
-    sendToAppData(app, 'valueA', value);
+    sendToAppData(app, key, value);
 }
 
 
