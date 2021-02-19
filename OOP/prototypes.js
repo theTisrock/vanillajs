@@ -35,12 +35,19 @@ Person.prototype.getsMarried = function(newLastName) {
     this.lastName = newLastName;
 }
 
+// full name
+Person.prototype.getFullName = function() {
+    return `${this.firstName} ${this.lastName}`; 
+}
+
 const john = new Person('John', 'Doe', '12-15-1988');
 const mary = new Person('Mary', 'Jane', '11-24-1999');
 
 console.log(mary.calculateAge());
 console.log(john.calculateAge());
 
-console.log(mary);
+console.log(mary.getFullName());
 mary.getsMarried('Smith');
-console.log(mary);
+console.log(mary.getFullName());
+
+console.log(mary.hasOwnProperty('birthday'));  // inherits from Object.prototype
