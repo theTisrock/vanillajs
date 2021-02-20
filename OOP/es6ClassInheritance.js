@@ -41,3 +41,5 @@ console.log(customer.greeting());
 console.log(Customer.getMembershipCost());
 // console.log(customer.getMembershipCost());  // cannot call a static method on an instance
 
+
+
