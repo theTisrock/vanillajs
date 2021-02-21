@@ -17,6 +17,7 @@ const drseuss = new Book("Green Eggs & Ham", "Dr. Suess", 777);
 
 // ui
 const bookForm = document.querySelector('#book-form');
+const clearBooksBtn = document.querySelector('#clear-books');
 
 
 const app = {
@@ -26,6 +27,7 @@ const app = {
     methods: {
         clearAllBooks: function() {
             app.data.books = [];
+            refreshBookTable();
         },
         addBook: function(newBook) {
             app.data.books.push(newBook);
@@ -102,8 +104,14 @@ function addBookEvent(event) {
     }
 }
 
+function clearBooksEvent(event) {
+    app.methods.clearAllBooks();
+}
+
 
 (function loadEventListeners() {
     document.addEventListener('DOMContentLoaded', onLoadEvent);
     bookForm.addEventListener('submit', addBookEvent);
+    clearBooksBtn.addEventListener('click', clearBooksEvent);
+
 })();
