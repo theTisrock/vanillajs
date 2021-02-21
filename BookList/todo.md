@@ -6,5 +6,5 @@ TODOS:
 *Enable adding books to the list by accepting via the Add Book form and sending validated data back to the app data books list: x
     - create app method addBook(newBook)
     - user addBook(newBook) to accept form data via click event
-*Enable the deletion of all books
+*Enable the deletion of all books: x
 *Enable the deletion of a target book

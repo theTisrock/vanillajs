@@ -11,18 +11,19 @@ function Book(title, author, isbn) {
 // console.log(book);
 
 // mock data
-const mockingbird = new Book("To Kill A Mockingbird", "Harper Lee", 999);
-const moutain = new Book("My Side of the Mountain", "Jean Craighead George", 888);
-const drseuss = new Book("Green Eggs & Ham", "Dr. Suess", 777);
+// const mockingbird = new Book("To Kill A Mockingbird", "Harper Lee", 999);
+// const moutain = new Book("My Side of the Mountain", "Jean Craighead George", 888);
+// const drseuss = new Book("Green Eggs & Ham", "Dr. Suess", 777);
 
 // ui
 const bookForm = document.querySelector('#book-form');
 const clearBooksBtn = document.querySelector('#clear-books');
+const booksCollection = document.querySelector('#books-collection');
 
 
 const app = {
     data: {
-        books: [mockingbird, moutain, drseuss],
+        books: [],
     },
     methods: {
         clearAllBooks: function() {
@@ -33,13 +34,17 @@ const app = {
             app.data.books.push(newBook);
             refreshBookTable();
         },
+        addBooks: function(books) {
+            app.data.books = books;
+            refreshBookTable();
+        },
     },
 }
 
 
 function clearAllBooksFromTable() {
     const tbody = document.querySelector('#books-collection');
-    tbody.querySelectorAll('td').forEach(function(tableDataEntry) {
+    tbody.querySelectorAll('tr').forEach(function(tableDataEntry) {
         tableDataEntry.remove();
     });
 }
@@ -53,8 +58,9 @@ function refreshBookTable() {
     const tbody = document.querySelector('#books-collection');  // acquire DOM section
 
     // for each entry in books list
-    books.forEach(function(bookObject) {
+    books.forEach(function(bookObject, index) {
         const row = document.createElement('tr');
+        row.setAttribute('id', index);
 
         const title = document.createElement('td');
         title.textContent = bookObject.title;
@@ -105,7 +111,24 @@ function addBookEvent(event) {
 }
 
 function clearBooksEvent(event) {
-    app.methods.clearAllBooks();
+    if (event.target.id === "clear-books") {
+        app.methods.clearAllBooks();
+    }
+}
+
+function deleteSelectedBookEvent(event) {
+    // this will involved event delegation listening for a click event and using the target's identity to remove it from the app data
+    event.preventDefault();
+
+    const books = app.data.books;
+    const id = parseInt(event.target.parentNode.parentNode.id);
+
+    const newBookList = books.filter(function(element, index) {
+        return (id != index);
+    });
+
+    app.methods.addBooks(newBookList);
+
 }
 
 
@@ -113,5 +136,5 @@ function clearBooksEvent(event) {
     document.addEventListener('DOMContentLoaded', onLoadEvent);
     bookForm.addEventListener('submit', addBookEvent);
     clearBooksBtn.addEventListener('click', clearBooksEvent);
-
+    booksCollection.addEventListener('click', deleteSelectedBookEvent);
 })();
