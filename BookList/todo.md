@@ -7,4 +7,4 @@ TODOS:
     - create app method addBook(newBook)
     - user addBook(newBook) to accept form data via click event
 *Enable the deletion of all books: x
-*Enable the deletion of a target book
+*Enable the deletion of a target book: x
