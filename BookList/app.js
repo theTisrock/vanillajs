@@ -120,6 +120,34 @@ function refreshBookTable() {
     });
 }
 
+function showAlert(message, messageType) {
+
+    function clearAlert() {
+        document.querySelector('#alert-message').remove();
+    }
+
+    let color;
+    if (messageType === "error") {
+        color = "red";
+    } else {
+        color = "green";
+    }
+
+    const alert = document.createElement('div');
+    const messageArea = document.createElement('p');
+    messageArea.textContent = message;
+
+    alert.appendChild(messageArea);
+    alert.style.backgroundColor = color;
+    alert.style.color = "white";
+    alert.setAttribute('id', 'alert-message');
+
+    const container = document.querySelector('.container');
+    container.insertBefore(alert, bookForm);
+
+    setTimeout(clearAlert, 3000);
+}
+
 
 /* events & listeners */
 function onLoadEvent(event) {
@@ -133,26 +161,32 @@ function addBookEvent(event) {
     const author = bookForm.querySelector('#author').value;
     const isbn = bookForm.querySelector('#isbn').value;
 
+    let message, messageType;
+
     // validate not null and not undefined
-    const noNulls = (title != null && author != null && isbn != null);
-    const allDefined = (typeof title != "undefined" && typeof author != "undefined" && typeof isbn != "undefined");
-    const validInputs = noNulls && allDefined;
+    const nonEmpty = title != "" && author != "" && isbn != "";
+    const validInputs = nonEmpty;
 
     if (validInputs) {
         // instantiate a new book
         const newBook = new Book(title, author, isbn);
         // add book to app data book list
         app.methods.addBook(newBook);
-
         clearBookForm();
+        message = "Book added successfully";
+        messageType = "success";
     } else {
-        alert("Bad inputs in book form.")
+        message = "Failed to add the book. Please fill out all fields!";
+        messageType = "error";
     }
+
+    showAlert(message, messageType);
 }
 
 function clearBooksEvent(event) {
     if (event.target.id === "clear-books") {
         app.methods.clearBooks();
+        showAlert("All books are cleared!", "success");
     }
 }
 
@@ -168,6 +202,8 @@ function deleteSelectedBookEvent(event) {
     });
 
     app.methods.setBooks(newBookList);
+
+    showAlert("Book removed", "success");
 }
 
 
@@ -177,7 +213,3 @@ function deleteSelectedBookEvent(event) {
     clearBooksBtn.addEventListener('click', clearBooksEvent);
     booksCollection.addEventListener('click', deleteSelectedBookEvent);
 })();
-
-// (function init() {
-//     app.initialize();
-// })();
