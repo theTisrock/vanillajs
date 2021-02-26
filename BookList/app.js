@@ -26,8 +26,8 @@ const app = {
         books: [],
     },
     methods: {
-        clearAllBooks: function() {
-            app.data.books = [];
+        clearData: function(dataField, replaceWith) {
+            app.data[dataField] = replaceWith;
             refreshBookTable();
         },
         addBook: function(newBook) {
@@ -112,7 +112,7 @@ function addBookEvent(event) {
 
 function clearBooksEvent(event) {
     if (event.target.id === "clear-books") {
-        app.methods.clearAllBooks();
+        app.methods.clearData('books', []);
     }
 }
 
