@@ -8,7 +8,6 @@ function Book(title, author, isbn) {
 
 // test
 // const book = new Book("To Kill A Mockingbird", "Harper Lee", 999);
-// console.log(book);
 
 // mock data
 // const mockingbird = new Book("To Kill A Mockingbird", "Harper Lee", 999);
@@ -21,23 +20,58 @@ const clearBooksBtn = document.querySelector('#clear-books');
 const booksCollection = document.querySelector('#books-collection');
 
 
+/* Local Storage */
+class Store {
+    /* Storage, retrieval and deletion of books is the responsibility of the application. Storage does not involve UI at all. */
+    static getAll(storageKey) {  // getAll('books')
+        let items;
+        const itemsDontExist = localStorage.getItem(storageKey) === null;
+
+        if (itemsDontExist) {
+            items = [];
+        } else {
+            let itemsStr = localStorage.getItem(storageKey);
+            items = JSON.parse(itemsStr);
+        }
+
+        return items;
+    }
+
+    static saveAll(storageKey, items) {
+        let _items = JSON.stringify(items);
+        localStorage.setItem(storageKey, _items);
+    }
+
+    /* static displayBooks() { 
+        I don't feel that displaying books has anything to do with storage of them.
+    } */
+}
+
+
 const app = {
     data: {
         books: [],
     },
     methods: {
-        clearData: function(dataField, replaceWith) {
-            app.data[dataField] = replaceWith;
+        clearBooks: function() {
+            app.data.books = [];
+            Store.saveAll('books', app.data.books);
             refreshBookTable();
         },
         addBook: function(newBook) {
             app.data.books.push(newBook);
+            Store.saveAll('books', app.data.books);
             refreshBookTable();
         },
-        addBooks: function(books) {
+        setBooks: function(books) {
             app.data.books = books;
+            Store.saveAll('books', app.data.books);
             refreshBookTable();
         },
+    },
+    initialize: function() {
+        app.data.books = Store.getAll('books');
+        refreshBookTable();
     },
 }
 
@@ -54,7 +88,6 @@ function refreshBookTable() {
     clearAllBooksFromTable();
 
     const books = app.data.books;  // app data
-    console.log(books);
     const tbody = document.querySelector('#books-collection');  // acquire DOM section
 
     // for each entry in books list
@@ -83,7 +116,7 @@ function refreshBookTable() {
 
 /* events & listeners */
 function onLoadEvent(event) {
-    refreshBookTable();
+    app.initialize();
 }
 
 function addBookEvent(event) {
@@ -92,8 +125,6 @@ function addBookEvent(event) {
     const title = bookForm.querySelector('#title').value;
     const author = bookForm.querySelector('#author').value;
     const isbn = bookForm.querySelector('#isbn').value;
-
-    // console.log(title, author, isbn);  // test
 
     // validate not null and not undefined
     const noNulls = (title != null && author != null && isbn != null);
@@ -112,7 +143,7 @@ function addBookEvent(event) {
 
 function clearBooksEvent(event) {
     if (event.target.id === "clear-books") {
-        app.methods.clearData('books', []);
+        app.methods.clearBooks();
     }
 }
 
@@ -127,8 +158,7 @@ function deleteSelectedBookEvent(event) {
         return (id != index);
     });
 
-    app.methods.addBooks(newBookList);
-
+    app.methods.setBooks(newBookList);
 }
 
 
@@ -138,3 +168,7 @@ function deleteSelectedBookEvent(event) {
     clearBooksBtn.addEventListener('click', clearBooksEvent);
     booksCollection.addEventListener('click', deleteSelectedBookEvent);
 })();
+
+// (function init() {
+//     app.initialize();
+// })();
