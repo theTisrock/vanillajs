@@ -83,6 +83,13 @@ function clearAllBooksFromTable() {
     });
 }
 
+function clearBookForm() {
+    bookForm.querySelector('#title').value = "";
+    bookForm.querySelector('#author').value = "";
+    bookForm.querySelector('#isbn').value = "";
+
+}
+
 
 function refreshBookTable() {
     clearAllBooksFromTable();
@@ -136,6 +143,8 @@ function addBookEvent(event) {
         const newBook = new Book(title, author, isbn);
         // add book to app data book list
         app.methods.addBook(newBook);
+
+        clearBookForm();
     } else {
         alert("Bad inputs in book form.")
     }
