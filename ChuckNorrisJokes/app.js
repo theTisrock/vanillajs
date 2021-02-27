@@ -3,10 +3,13 @@ Chuck Norris Jokes from an external API
 
 TODOS:
     1) see if the API still works after all these years: done!
-    2) since the API feeds data, we don't really have to worry about state
-    HOWEVER, to make the app more resourceful, I could record jokes within a certain range and check
-    whether or not they exist in the app state and prevent querying the API.
-    3) Persist jokes in local storage
+    
+Two main things to consider when developing:
+
+    A: Architecture: how to connect display, data source, and storage, to the app.
+    B: The App: Custom or business state and logic
+
+    May be better to focus on B first and use mock data and sources.
 */
 
 // ui
@@ -76,7 +79,7 @@ const app = {
 
                     app.data.joke = joke;
                 } else {
-                    console.warn("There was a problem fetching the jokes.")
+                    console.error("There was a problem fetching the jokes.");
                     app.data.joke = null;
                 }
             }
@@ -90,4 +93,22 @@ const app = {
     },
 }
 
-app.init("https://api.icndb.com/jokes")
+
+// Events
+function getJokesEvent(event) {
+    event.preventDefault();
+
+    console.log("hello");
+    const numberOfJokes = userInput.value;
+
+    app.methods.fetchJokes(`/random/${numberOfJokes}`);
+}
+
+function loadEventListeners() {
+    jokeForm.addEventListener('submit', getJokesEvent);
+}
+
+loadEventListeners();
+
+
+app.init("https://api.icndb.com/jokes");
