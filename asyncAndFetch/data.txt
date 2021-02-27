@@ -1,1 +1,1 @@
-Some plain text data
+{ "title": "Book One", "author": "Chris", "isbn": "123"}
