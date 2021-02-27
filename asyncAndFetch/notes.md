@@ -41,3 +41,20 @@ A few ways to work with Asynchronous code:
 - Callbacks
 - Promises
 - Async/await
+
+What is Ajax?
+
+- Asynchrounouse JavaScript & XML: JSON is more often used over XML for Ajax, 
+- Allows us to fetch new data without reloading the entire page
+- can be used to request data via a Web API
+
+Old way: Client ---- common request & response -------> Server; server gives all content client reloads the entire page
+New way: Client ---- javascript call ---------> Ajax Engine ----- xml http request ------> Server; server gives only the JSON content required and a reload is no longer required.
+
+HTTP request JS libraries:
+
+    - Fetch API: core built-in
+    - Axios
+    - Superagent
+    - jQuery: usually overkill because it includes DOM manipulation
+    - Node HTTP
