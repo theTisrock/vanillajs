@@ -15,15 +15,45 @@ const jokeForm = document.querySelector('#joke-form');
 const userInput = jokeForm.querySelector('#number');
 const output = document.querySelector('#output');
 
+// mock data
+class MockAPI {
+    static as_json = '{ "type": "success", "value": [ { "id": 1, "joke": "Joke 1" }, { "id": 5, "joke": "Joke 5" }, { "id": 9, "joke": "Joke 9" } ] }';
+
+    static getJokes() {
+        return MockAPI.as_json;
+    }
+}
+
+// UI interface
+class UI {
+    static removeJokes() {
+        const lis = output.querySelectorAll('li');
+
+        lis.forEach(function(joke) {
+            joke.remove();
+        });
+    }
+
+    static displayJokes(jokes) {
+        let myOutput = "";
+
+        jokes.forEach(function(joke) {
+            myOutput += `<li>${joke.joke}</li>`;
+        });
+
+        output.innerHTML = myOutput;
+    }
+}
+
 
 
 const app = {
     source: null,
     data: {
-        joke: null,
+        jokes: null,
     },
     methods: {
-        fetchJoke: function(endpoint="") {
+        fetchJokes: function(endpoint="") {
             let joke;
             // prepare an XHR object to query the API
             const xhr = new XMLHttpRequest();
@@ -33,8 +63,17 @@ const app = {
                 
                 if (responseOk) {
                     console.log(this.responseText);
-                    jokes = JSON.parse(this.responseText);
-                    // put array into app.data
+                    let response = JSON.parse(this.responseText);
+                    const success = response.type;
+
+                    if (success) {
+                        UI.removeJokes();
+                        app.data.jokes = response.value;
+                        UI.displayJokes(app.data.jokes);
+                    } else {
+                        console.log("A problem occurred while fetching data.");
+                    }
+
                     app.data.joke = joke;
                 } else {
                     console.warn("There was a problem fetching the jokes.")
