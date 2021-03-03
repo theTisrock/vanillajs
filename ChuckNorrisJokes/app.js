@@ -103,6 +103,4 @@ function loadEventListeners() {
 }
 
 loadEventListeners();
-
-
 app.init("https://api.icndb.com/jokes");
