@@ -31,3 +31,5 @@ what does the library code handle? We want to take away complexity and boilerpla
 I feel that allowing the API user to control what is done with the response is better.
 
 Should they control the XHR object? I think not.
+
+In any case, a library should make the devs life easier. 
