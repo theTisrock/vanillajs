@@ -57,7 +57,6 @@ const app = {
     },
     methods: {
         fetchJokes: function(endpoint="") {
-            let joke;
             // prepare an XHR object to query the API
             const xhr = new XMLHttpRequest();
             xhr.open('GET', `${app.source}/${endpoint}`, true);
@@ -76,8 +75,6 @@ const app = {
                     } else {
                         console.log("A problem occurred while fetching data.");
                     }
-
-                    app.data.joke = joke;
                 } else {
                     console.error("There was a problem fetching the jokes.");
                     app.data.joke = null;
@@ -97,10 +94,7 @@ const app = {
 // Events
 function getJokesEvent(event) {
     event.preventDefault();
-
-    console.log("hello");
     const numberOfJokes = userInput.value;
-
     app.methods.fetchJokes(`/random/${numberOfJokes}`);
 }
 
@@ -109,6 +103,4 @@ function loadEventListeners() {
 }
 
 loadEventListeners();
-
-
 app.init("https://api.icndb.com/jokes");
