@@ -5,8 +5,9 @@ const http = new easyHTTP;
 // console.log(posts);  // returns undefined, the async response has not been handled
 
 
-function handler(response) {
-    console.log(response);
+function responseHandler(error, response, status) {
+    const responseOk = status >= 200 && status < 299;
+    responseOk ? console.log(response) : console.log(error);
 }
 
-http.get('http://jsonplaceholder.typicode.com/posts', handler);
+http.get('http://jsonplaceholder.typicode.com/posts', responseHandler);

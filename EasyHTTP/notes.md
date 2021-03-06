@@ -24,3 +24,10 @@ This is weird having to manage scope explicitly.
 The point?
 
 WHEN YOU ARE INSIDE A FUNCTION, THE 'this' KEYWORD PERTAINS TO THAT FUNCTION, unless the scope is changed explicitly.
+
+While working on the onload get function, I realized that when building a library, I have a decision to make: 
+what does the library code handle? We want to take away complexity and boilerplate as much as possible, while still allowing for extensibility.
+
+I feel that allowing the API user to control what is done with the response is better.
+
+Should they control the XHR object? I think not.
