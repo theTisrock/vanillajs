@@ -10,7 +10,13 @@ function createPost(post) {
     return new Promise(function(resolve, reject) {
         setTimeout(function() {  // setTimeout is async
             posts.push(post);
-            resolve();
+            // mimic error
+            const error = true;
+            if (!error) {
+                resolve();  // triggers .then
+            } else {
+                reject('Error: something went wrong!');  // triggers .catch
+            }
         }, 2000)
     });
 }
@@ -26,4 +32,27 @@ function getPosts() {
 }
 
 // inject the callback 
-createPost({title: 'Post Three', body: 'This is post three'}, getPosts);
+createPost({title: 'Post Three', body: 'This is post three'})
+    .then(getPosts)
+    .catch(function(error) {
+        console.log(error);
+    })
+
+
+/* practice */
+
+function divideFraction(numerator, denominator) {
+    return new Promise(function(resolve, reject) {
+        if (denominator === 0) {
+            reject("Cannot divide by zero.")
+        } else {
+            resolve(numerator / denominator);
+        }
+    });
+}
+
+divideFraction(9, 9).then(function(answer) {
+    console.log(answer);
+}).catch(function(error) {
+    console.log(error);
+});
