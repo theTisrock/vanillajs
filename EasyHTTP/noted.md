@@ -10,3 +10,11 @@ index.html...
     # <script src="easyhttp.js"></script>
     # <script src="app.js"></script>
 
+Build out the HTTP GET, PUT, POST, DELETE methods in the prototypes
+
+
+Lexical scope and arrow functions:
+
+In our easyHttp library, we come across an undefined this.http reference when calling the status attribute in the onload hook. We get this error inside the function, but not outside of it. Why?
+
+The scope must be passed down with an arrow function. This is weird having to manage scope explicitly.
