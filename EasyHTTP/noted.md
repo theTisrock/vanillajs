@@ -17,4 +17,10 @@ Lexical scope and arrow functions:
 
 In our easyHttp library, we come across an undefined this.http reference when calling the status attribute in the onload hook. We get this error inside the function, but not outside of it. Why?
 
-The scope must be passed down with an arrow function. This is weird having to manage scope explicitly.
+The scope must be passed down with an arrow function. Or use <code>let self = this;</code>
+Then use self inside the function.
+This is weird having to manage scope explicitly.
+
+The point?
+
+WHEN YOU ARE INSIDE A FUNCTION, THE 'this' KEYWORD PERTAINS TO THAT FUNCTION, unless the scope is changed explicitly.
