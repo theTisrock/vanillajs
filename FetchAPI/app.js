@@ -12,16 +12,12 @@ function fetchData(source, format) {
     const output = document.querySelector('#output');
 
     fetch(source)  // fetch is promise based
-        .then(function(res) {
+        .then(res => {
             if (format === 'text') return res.text();
             if (format === 'json') return res.json();
         })
-        .then(function(data) {
-            output.innerHTML = `<p>${JSON.stringify(data)}</p>`;
-        })
-        .catch(function(error) {
-            output.innerHTML = `<p>${error}</p>`;
-        });
+        .then(data => output.innerHTML = `<p>${JSON.stringify(data)}</p>`)
+        .catch(error => output.innerHTML = `<p>${error}</p>`);
 }
 
 
