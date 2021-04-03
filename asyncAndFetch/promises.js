@@ -1,4 +1,7 @@
-/* Promises */
+/* Promises - the eventual completion of some operation
+
+    3 states of a promise: 1) pending 2) resolved 3) rejected
+*/
 
 const posts = [
     {title: 'Post One', body: 'This is post one'},
