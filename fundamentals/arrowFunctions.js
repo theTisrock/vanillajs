@@ -20,7 +20,8 @@
 
 // console.log(sayHello());
 
-// const sayHello = () => { msg: "hello" };  // object literals in arrow functions return undefined unless wrapped in parens
+// const sayHello = () => { msg: "hello" };  // object literals in arrow functions return undefined unless wrapped in parens. 
+// curly brackets here are treated as the function body instead of an object literal.
 // const sayHello = () => ({ msg: "hello" });
 // console.log(sayHello());
 
