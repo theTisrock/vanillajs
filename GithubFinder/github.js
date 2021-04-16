@@ -5,8 +5,9 @@
 class Github {
 
     constructor() {
-
+        this.API_KEY = config.apiKey;
     }
+
 
     async getProfile() {
 
