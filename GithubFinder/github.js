@@ -6,11 +6,24 @@ class Github {
 
     constructor() {
         this.API_KEY = config.apiKey;
+        this.BASE_URL = config.baseURL;
+
+        /* this.headers = {
+            'Content-Type': "application/json",
+            'Authorization': `token ${this.API_KEY}`,
+        } */
     }
 
 
-    async getProfile() {
+    async getProfile(username) {
+        const url = `${this.BASE_URL}users/${username}`;
 
+        let response = await fetch(url)
+            .then(res => res.json())
+            .then(data => data)
+            .catch(error => error);
+
+        console.log(response);
     }
 
 }

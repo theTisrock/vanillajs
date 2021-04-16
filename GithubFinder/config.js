@@ -3,5 +3,5 @@
 const config = {
     name: "Github Profile Search",
     apiKey: API_KEY,
-    baseURL: "",
+    baseURL: "https://api.github.com/",
 }
