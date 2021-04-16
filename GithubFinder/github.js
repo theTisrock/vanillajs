@@ -18,12 +18,12 @@ class Github {
     async getProfile(username) {
         const url = `${this.BASE_URL}users/${username}`;
 
-        let response = await fetch(url)
-            .then(res => res.json())
-            .then(data => data)
-            .catch(error => error);
+        let response = await fetch(url);
+        let profile = await response.json();
 
-        console.log(response);
+        return {
+            profile
+        }
     }
 
 }

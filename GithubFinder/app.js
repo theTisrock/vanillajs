@@ -2,7 +2,8 @@
 
 
 // external resources
-const githubClient = new Github;
+
+const githubClient = new Github();
 const ui = new UI;
 
 
@@ -15,21 +16,18 @@ const ui = new UI;
 const searchUserInput = document.querySelector('#searchUser');
 
 
-function searchProfiles(event) {
-    console.log("searchProfiles was triggered");
+async function searchProfiles(event) {
+    let username = event.target.value;
 
-    /* PSEUDO CODE BLOCK
-    const response = githubClient.getProfile();
-
-    if (!response.ok) {
-        ui.showAlert("Profile does not exist.");
+    if (username != '') {
+        let profile = await githubClient.getProfile(username);
+        ui.showProfile(profile.profile);
         return;
     }
 
-    const data = response.data();
-    ui.showProfile(data);
-    */
+    ui.showProfile({profile: {}});
 }
+
 
 function loadEventListeners() {
     searchUserInput.addEventListener('keyup', searchProfiles);
