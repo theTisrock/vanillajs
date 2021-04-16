@@ -8,17 +8,17 @@ class Github {
         this.API_KEY = config.apiKey;
         this.BASE_URL = config.baseURL;
 
-        /* this.headers = {
+        this.headers = {
             'Content-Type': "application/json",
             'Authorization': `token ${this.API_KEY}`,
-        } */
+        }
     }
 
 
     async getProfile(username) {
         const url = `${this.BASE_URL}users/${username}`;
 
-        let response = await fetch(url);
+        let response = await fetch(url, { headers: this.headers });
         let profile = await response.json();
 
         return {
