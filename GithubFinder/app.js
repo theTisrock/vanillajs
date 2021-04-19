@@ -26,11 +26,12 @@ async function searchProfiles(event) {
             return;
         }
 
+        ui.showProfile({ profile: {}});
         ui.showAlert(response.info.status, response.info.statusText, 'alert alert-danger', 3000);
         return;
     }
 
-    ui.showProfile({profile: {}});  // using the data to decide whether or not something should be shown
+    ui.showProfile({profile: {}});
 }
 
 
