@@ -2,7 +2,6 @@
 
 
 // external resources
-
 const githubClient = new Github();
 const ui = new UI;
 
@@ -20,12 +19,18 @@ async function searchProfiles(event) {
     let username = event.target.value;
 
     if (username != '') {
-        let profile = await githubClient.getProfile(username);
-        ui.showProfile(profile.profile);
+        let response = await githubClient.getProfile(username);
+
+        if (response.info.ok) {
+            ui.showProfile(response.profile);
+            return;
+        }
+
+        ui.showAlert(response.info.status, response.info.statusText, 'alert alert-danger', 3000);
         return;
     }
 
-    ui.showProfile({profile: {}});
+    ui.showProfile({profile: {}});  // using the data to decide whether or not something should be shown
 }
 
 

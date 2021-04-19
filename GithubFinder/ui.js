@@ -47,8 +47,21 @@ class UI {
     }
 
 
-    showAlert() {
-        
+    showAlert(statusCode, statusText, className, timeoutSeconds) {
+        const alertComponent = document.createElement('div');
+        alertComponent.setAttribute('id', 'alert');
+        alertComponent.className = className;
+
+        alertComponent.innerHTML = `<p>${statusCode}: ${statusText}</p>`;
+
+        this.profile.appendChild(alertComponent);
+
+        setTimeout(() => { 
+            let alert = document.querySelector('#alert');
+
+            if (alert)
+                document.querySelector('#alert').remove() 
+        }, timeoutSeconds);
     }
 
 }

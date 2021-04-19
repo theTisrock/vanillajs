@@ -22,6 +22,7 @@ class Github {
         let profile = await response.json();
 
         return {
+            info: response,  // return this to make decisions about what to display in app.js
             profile
         }
     }
