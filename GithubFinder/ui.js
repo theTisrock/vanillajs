@@ -58,7 +58,9 @@ class UI {
         for (let i=0; i<repos.length; i++) {
             let li = document.createElement('li');
             li.setAttribute('id', `repo-item-${i}`);
-            li.textContent = `${repos[i].name} | ${repos[i].language}`;
+            li.innerHTML = `
+            <a href="${repos[i].html_url}" >${repos[i].name}</a> | ${repos[i].language}
+            `;
 
             repoList.appendChild(li);
         }
