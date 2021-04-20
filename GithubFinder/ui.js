@@ -48,6 +48,12 @@ class UI {
 
 
     showAlert(statusCode, statusText, className, timeoutSeconds) {
+
+        let alert = document.querySelector('#alert');
+        
+        if (alert)
+            alert.remove();
+
         const alertComponent = document.createElement('div');
         alertComponent.setAttribute('id', 'alert');
         alertComponent.className = className;
@@ -56,7 +62,7 @@ class UI {
 
         this.profile.appendChild(alertComponent);
 
-        setTimeout(() => { 
+        setTimeout(() => {
             let alert = document.querySelector('#alert');
 
             if (alert)
