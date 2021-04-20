@@ -23,8 +23,9 @@ async function searchProfiles(event) {
 
         if (userResponse.info.ok) {
             let reposResponse = await githubClient.getRepos(username);
-            console.log(reposResponse);
+            console.log(reposResponse.repos);
             ui.showProfile(userResponse.profile);
+            ui.showRepos(reposResponse.repos);
             return;
         }
 

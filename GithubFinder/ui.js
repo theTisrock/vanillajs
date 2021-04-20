@@ -42,8 +42,28 @@ class UI {
                     </div>
                 </div>
                 <h3 class="page-heading mb-3">Latest Repos</h3>
+                <div id="repos">
+
+                </div>
             `;
         }
+    }
+
+
+    showRepos(repos) {
+        const reposArea = document.querySelector('#repos');
+        const repoList = document.createElement('ul');
+        repoList.setAttribute('id', 'repo-list');
+
+        for (let i=0; i<repos.length; i++) {
+            let li = document.createElement('li');
+            li.setAttribute('id', `repo-item-${i}`);
+            li.textContent = `${repos[i].name} | ${repos[i].language}`;
+
+            repoList.appendChild(li);
+        }
+
+        reposArea.appendChild(repoList);
     }
 
 
