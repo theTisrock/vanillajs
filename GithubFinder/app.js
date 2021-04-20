@@ -19,15 +19,17 @@ async function searchProfiles(event) {
     let username = event.target.value;
 
     if (username != '') {
-        let response = await githubClient.getProfile(username);
+        let userResponse = await githubClient.getProfile(username);
 
-        if (response.info.ok) {
-            ui.showProfile(response.profile);
+        if (userResponse.info.ok) {
+            let reposResponse = await githubClient.getRepos(username);
+            console.log(reposResponse);
+            ui.showProfile(userResponse.profile);
             return;
         }
 
         ui.showProfile({ profile: {}});
-        ui.showAlert(response.info.status, response.info.statusText, 'alert alert-danger', 3000);
+        ui.showAlert(userResponse.info.status, userResponse.info.statusText, 'alert alert-danger', 3000);
         return;
     }
 

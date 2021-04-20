@@ -27,4 +27,16 @@ class Github {
         }
     }
 
+    async getRepos(username) {
+        const url = `${this.BASE_URL}users/${username}/repos`;
+
+        let response = await fetch(url, { headers: this.headers });
+        let repos = await response.json();
+
+        return {
+            info: response,
+            repos,
+        }
+    }
+
 }
