@@ -34,7 +34,7 @@ const profileDisplay = document.getElementById('profileDisplay');
 const nextProfile = document.getElementById('next');
 
 
-function getProfiles(data) {  // iterator
+function profileIterator(data) {
     let index = 0;
 
     return {
@@ -44,14 +44,47 @@ function getProfiles(data) {  // iterator
     }
 }
 
-const profiles = getProfiles(data);
+function* profileGenerator(data) {
+    let index = 0;
+
+    while (index < data.length) { 
+        yield data[index++]; 
+    }
+}
+
+const profiles = profileIterator(data);
+
+
+function showNextProfile(profiles) {
+    const currentProfile = profiles.next().value;
+
+    if (currentProfile !== undefined) {
+
+        profileDisplay.innerHTML = `
+        <ul class="list-group">
+            <li class="list-group-item">${currentProfile.name}</li>
+            <li class="list-group-item">${currentProfile.age}</li>
+            <li class="list-group-item">${currentProfile.gender} looking for ${currentProfile.lookingFor}</li>
+            <li class="list-group-item">${currentProfile.location}</li>
+        </ul>
+        `;
+
+        imgDisplay.innerHTML = `
+        <img src="${currentProfile.image}">
+        </img>
+        `;
+        return;
+    }
+
+    window.location.reload();
+}
 
 
 // event listeners
 function nextProfileEvent(event) {
     // placing the initialization of a generator or iterator in an event listener will produce a brand new
     // generator/iterator every time, which effectively prevents "next()" from working.
-    console.log(profiles.next().value);
+    showNextProfile(profiles);
 }
 
 
