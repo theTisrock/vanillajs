@@ -77,3 +77,41 @@ ItemCtrl.add({ id: 2, name: 'tom'});
 
 console.log(ItemCtrl.get(1));
 
+/* 
+The key features of the Module Pattern in JavaScript: 
+
+    - a closure scope allows for hiding private data and methods (encapsulation). Side note: this pattern may be feasible in Python as well.
+    - this seems like the closest that JavaScript can get to other languages with access modifiers, like Java & C++
+    - feels A LOT like a class
+
+    - Can it return instances? It seems after some research that the idea of the module pattern is to be used like a singleton. 
+
+*/
+
+// Experiment
+
+// https://softwareengineering.stackexchange.com/questions/309361/is-module-pattern-in-javascript-is-useful-only-for-singleton-creation
+
+const Vehicle = (function() { // private
+    let speed = 0;
+    const speedLimiter = 50;
+
+    const accelerate = function() {
+        speed = speed + 5;
+    }
+
+    return { // public
+        callAccelerate: function() {
+            accelerate();
+        },
+        race: function() {
+            while (speed < speedLimiter) {
+                accelerate();
+                console.log(speed); 
+            }
+        }
+    }
+})();
+
+Vehicle.callAccelerate();
+Vehicle.race();
